@@ -1,0 +1,44 @@
+
+name: Follow Upstream Releases
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 4 */1 * *" # Every 24 hours at 4:10 AM
+
+jobs:
+  update_on_new_release:
+    name: Update .spec file on new release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check for new upstream release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          upstream_latest_release=$(curl -s https://api.github.com/repos/Traciges/Asus-Hub/releases/latest | jq -r '.tag_name // empty' | sed 's/^v//')
+          if [ -z "$upstream_latest_release" ]; then
+            echo "No tag_name found in upstream response; nothing to do."
+            exit 0
+          fi
+          echo "Latest Asus Hub release: $upstream_latest_release"
+
+          rpm_latest_release=$(grep -E '^Version:\s*\S*\s*$' asus-hub.spec | awk '{print $2}')
+          echo "Latest RPM package release: $rpm_latest_release"
+
+          if [ "$upstream_latest_release" != "$rpm_latest_release" ]; then
+            echo "New release available."
+            echo "Updating asus-hub.spec..."
+            sed -i "s/^Version:\s*\S*\s*$/Version: $upstream_latest_release/" asus-hub.spec
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add asus-hub.spec
+            git commit -m "Update to $upstream_latest_release"
+            git push origin HEAD:main
+          else
+            echo "Already on the latest release; nothing to do."
+          fi
