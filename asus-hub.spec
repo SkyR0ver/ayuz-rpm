@@ -1,4 +1,5 @@
 %global _icondir %{_iconsdir}/hicolor/1024x1024/apps
+%global appid de.guido.asus-hub
 
 Name:           asus-hub
 Version:        1.0.2
@@ -14,6 +15,7 @@ BuildRequires:  cargo
 BuildRequires:  gtk4-devel
 BuildRequires:  libadwaita-devel
 BuildRequires:  dbus-devel
+BuildRequires:  libappstream-glib
 
 Requires:       gtk4
 Requires:       libadwaita
@@ -40,17 +42,22 @@ cargo build --release
 install -Dpm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 
 # Install icon
-install -Dpm644 assets/trayicon.png %{buildroot}%{_icondir}/%{name}.png
+install -Dpm644 assets/trayicon.png %{buildroot}%{_icondir}/%{appid}.png
 
 # Install desktop file
-install -Dpm644 packaging/asus-hub-appimage.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
+install -Dpm644 packaging/%{appid}.desktop %{buildroot}%{_datadir}/applications/%{appid}.desktop
+
+# Install metainfo file
+install -Dpm644 packaging/%{appid}.metainfo.xml %{buildroot}%{_metainfodir}/%{appid}.metainfo.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{appid}.metainfo.xml
 
 
 %files
 %license LICENSE
 %{_bindir}/%{name}
-%{_icondir}/%{name}.png
-%{_datadir}/applications/%{name}.desktop
+%{_icondir}/%{appid}.png
+%{_datadir}/applications/%{appid}.desktop
+%{_metainfodir}/%{appid}.metainfo.xml
 
 
 %changelog
