@@ -1,4 +1,4 @@
-%global _icondir %{_iconsdir}/hicolor/1024x1024/apps
+%global _icondir %{_iconsdir}/hicolor/512x512/apps
 %global appid de.guido.asus-hub
 
 Name:           asus-hub
@@ -10,6 +10,7 @@ License:        GPL-3.0-or-later
 URL:            https://github.com/Traciges/Asus-Hub
 
 Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
+Source1:        %{appid}.png
 
 BuildRequires:  cargo
 BuildRequires:  gtk4-devel
@@ -42,7 +43,7 @@ cargo build --release
 install -Dpm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 
 # Install icon
-install -Dpm644 assets/trayicon.png %{buildroot}%{_icondir}/%{appid}.png
+install -Dpm644 %{S:1} %{buildroot}%{_icondir}/%{appid}.png
 
 # Install desktop file
 install -Dpm644 packaging/%{appid}.desktop %{buildroot}%{_datadir}/applications/%{appid}.desktop
