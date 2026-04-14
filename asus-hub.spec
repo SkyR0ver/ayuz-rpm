@@ -2,7 +2,7 @@
 %global appid de.guido.asus-hub
 
 Name:           asus-hub
-Version: 1.0.3
+Version: 1.0.4
 Release:        %autorelease
 Summary:        Unofficial Control Center for Asus Laptops
 
