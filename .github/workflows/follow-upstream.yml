@@ -33,7 +33,7 @@ jobs:
           if [ "$upstream_latest_release" != "$rpm_latest_release" ]; then
             echo "New release available."
             echo "Updating asus-hub.spec..."
-            sed -i "s/^Version:\s*\S*\s*$/Version: $upstream_latest_release/" asus-hub.spec
+            sed -i -E "s/^Version:(\s*)\S*\s*$/Version:\1$upstream_latest_release/" asus-hub.spec
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add asus-hub.spec
