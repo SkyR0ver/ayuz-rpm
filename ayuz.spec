@@ -19,6 +19,8 @@ BuildRequires:  libadwaita-devel
 BuildRequires:  dbus-devel
 BuildRequires:  libappstream-glib
 
+BuildRequires:  ImageMagick
+
 Requires:       gtk4
 Requires:       libadwaita
 Requires:       asusctl
@@ -44,6 +46,7 @@ cargo build --release
 install -Dpm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 
 # Install icon
+magick convert assets/trayicon.png -resize 512x512 assets/trayicon.png
 install -Dpm644 assets/trayicon.png %{buildroot}%{_icondir}/%{appid}.png
 
 # Install desktop file
