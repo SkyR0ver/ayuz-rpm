@@ -2,7 +2,7 @@
 %global appid de.guido.ayuz
 
 Name:           ayuz
-Version:        1.0.8
+Version:        1.0.9
 Release:        %autorelease
 Summary:        Unofficial Control Center for Asus Laptops
 
