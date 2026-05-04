@@ -38,7 +38,7 @@ jobs:
 
       - name: Check for new upstream release
         run: |
-          if [ "$LATEST_VERSION" != "$PACKAGED_VERSION" ]; then
+          if [ -n "$LATEST_VERSION" ] && [ "$LATEST_VERSION" != "$PACKAGED_VERSION" ]; then
             echo "New release available."
             echo "NEW_RELEASE=true" >> $GITHUB_ENV
           else
