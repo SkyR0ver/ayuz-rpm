@@ -15,6 +15,7 @@ Obsoletes:      asus-hub < 1.0.5-2
 
 BuildRequires:  cargo
 BuildRequires:  gtk4-devel
+BuildRequires:  gtk4-layer-shell-devel
 BuildRequires:  libadwaita-devel
 BuildRequires:  dbus-devel
 BuildRequires:  libappstream-glib
@@ -22,6 +23,7 @@ BuildRequires:  libappstream-glib
 BuildRequires:  ImageMagick
 
 Requires:       gtk4
+Requires:       gtk4-layer-shell
 Requires:       libadwaita
 Requires:       asusctl
 Requires:       supergfxctl
